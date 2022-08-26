@@ -12,10 +12,10 @@ def get_conn(username, password, account):
 	'''
 
 	return snowflake.connector.connect(
-		user = username,
-		password = password,
-		account = account
-		)
+	    user = username,
+	    password = password,
+	    account = account
+	    )
 
 def get_csv_list(folder_path):
 	'''
@@ -26,8 +26,8 @@ def get_csv_list(folder_path):
 
 	csv_path_list = []
 	for directory, subdir, files in os.walk(folder_path):
-		for file in files:
-			csv_path_list.append(os.path.join(folder_path, file))
+	    for file in files:
+		csv_path_list.append(os.path.join(folder_path, file))
 	return csv_path_list
 
 
@@ -47,14 +47,14 @@ def load_csvs_to_snowflake_table(ctx, qualified_table, csv_path_list):
 	k = []
 	i = 0
 	for col in cs.describe('SELECT * FROM {};'.format(table)):
-		k.append(col[0])
+	    k.append(col[0])
 	for csv_file in csv_path_list:
-		df = pd.read_csv(csv_file, na_values = 'None')
-		df = pd.DataFrame({col: df[col] for col in k})
-		tmp = '{}.csv'.format(i)
-		df.to_csv(tmp, index = False)
-		cs.execute('PUT file://{}* @%{};'.format(tmp, table))
-		cs.execute("COPY INTO {} file_format = (type = csv field_delimiter = ',' skip_header = 1)".format(table))
-		i += 1
+	    df = pd.read_csv(csv_file, na_values = 'None')
+	    df = pd.DataFrame({col: df[col] for col in k})
+	    tmp = '{}.csv'.format(i)
+	    df.to_csv(tmp, index = False)
+	    cs.execute('PUT file://{}* @%{};'.format(tmp, table))
+	    cs.execute("COPY INTO {} file_format = (type = csv field_delimiter = ',' skip_header = 1)".format(table))
+	    i += 1
 	cs.close()
 	ctx.close()
