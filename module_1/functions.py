@@ -50,7 +50,8 @@ def load_csvs_to_snowflake_table(ctx, qualified_table, csv_path_list):
         k.append(col[0])
     for csv_file in csv_path_list:
         df = pd.read_csv(csv_file, na_values = 'None')
-        df = pd.DataFrame({col: df[col] for col in k})
+	if list(df.columns) != k:
+            df = pd.DataFrame({col: df[col] for col in k})
         tmp = '{}.csv'.format(i)
         df.to_csv(tmp, index = False)
         cs.execute('PUT file://{}* @%{};'.format(tmp, table))
