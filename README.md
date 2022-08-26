@@ -1,13 +1,17 @@
+This program allows a user to specify a local directory containing csv files which can be inserted into an existing Snowflake database.
+The csv file column headers do not need to be in the same order as the Snowflake table's columns.
+
 ###Installation Instructions
 
-The only step here is to make sure the snowflake-python connector is properly installed,
-which can be done by issuing the following command through your terminal: 
+The only installation requirements are to have snowflake-python connector and pandas installed,
+which can be done by issuing the following commands to your pip installer: 
 
 pip install --upgrade snowflake-connector-python
+pip install pandas
 
 
 ###Usage Instructions
-Once inside the snowflake_project directory, issue the command:
+Once inside the root directory in your terminal, issue the command:
 
 python app.py
 
@@ -26,6 +30,5 @@ click in the filepath box to reveal the path. Enter or paste the exact path into
 Type or paste in the fully qualified table name and the press enter.
 
 6) Finally the program will parse through the csv files contained in the folder path, inserting them into the table specified.
-Depending upon the file sizes, this could take anywhere from a few seconds to a few minutes.
 
 Once the program has finished, a status message will be printed to your terminal.
