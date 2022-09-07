@@ -1,4 +1,5 @@
-import csv, os, pandas as pd
+import os
+import pandas as pd
 import snowflake.connector
 
 
